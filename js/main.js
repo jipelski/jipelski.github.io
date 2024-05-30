@@ -20,5 +20,22 @@ document.addEventListener('DOMContentLoaded', () => {
     loadHeader();
     loadContent('/src/home.html');
 
+    window.sendForm = sendForm;
     window.loadContent = loadContent;
+
 })
+
+function sendForm() {
+    event.preventDefault();
+    emailjs.init('I6XAeZBxH6tn7Dqg3')
+
+    const serviceID = 'service_dvofvzg';
+    const templateID = 'template_1qbyhbf';
+
+    emailjs.sendForm(serviceID, templateID, '#contact-form')
+        .then(() => {
+            alert('Sent!');
+        }, (err) => {
+            alert(JSON.stringify(err));
+        });
+}

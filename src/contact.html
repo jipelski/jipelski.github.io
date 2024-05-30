@@ -1,2 +1,21 @@
 <meta charset="UTF-8">
-<div class="inner-content"></div>
+<div class="inner-content">
+    <div class="social-specific-content" id="linkedin"></div>
+    <div class="social-specific-content" id="github"></div>
+    <div class="social-specific-content" id="gmail"></div>
+
+    <div class="email-form">
+        <form id="contact-form" action="#">
+            <label>
+                <input type="text" name="name" placeholder="Your name" required>
+            </label>
+            <label>
+                <input type="text" name="email" placeholder="Your email" required>
+            </label>
+            <label>
+                <textarea name="message" placeholder="Your message" required></textarea>
+            </label>
+            <button type="submit" id="form-btn" onclick="sendForm('#contact-form')">Send</button>
+        </form>
+    </div>
+</div>

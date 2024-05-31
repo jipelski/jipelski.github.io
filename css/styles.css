@@ -1,0 +1,76 @@
+:root {
+    --primary-color: #3498db;
+    --on-primary-color: #ffffff;
+    --secondary-color: #2ecc71;
+    --on-secondary-color: #ffffff;
+    --background-color: #f5f5f5;
+    --on-background-color: #333333;
+    --surface-color: #ffffff;
+    --on-surface-color: #333333;
+    --error-color: #e74c3c;
+    --on-error-color: #ffffff;
+}
+
+nav {
+    opacity: 70%;
+    background-color: var(--background-color);
+    color: var(--on-background-color);
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--on-background-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+    color: var(--primary-color);
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: var(--on-primary-color);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: var(--secondary-color);
+    color: var(--on-secondary-color);
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+}
+
+button.secondary {
+    background-color: var(--secondary-color);
+    color: var(--on-secondary-color);
+}
+
+
+.card {
+    background-color: var(--surface-color);
+    color: var(--on-surface-color);
+    border: 1px solid var(--on-background-color);
+    padding: 20px;
+    margin: 20px;
+}
+
+.error {
+    background-color: var(--error-color);
+    color: var(--on-error-color);
+    padding: 10px;
+    margin: 10px 0;
+}

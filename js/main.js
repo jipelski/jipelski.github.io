@@ -23,14 +23,19 @@ function loadFooter() {
 }
 
 /***
- loadContent(@page) is used to load the main component into the page from the dedicated .html file.
- @param page - the location where the main component html resides
+ * loadContent(@page) is used to load the main component into the page from the dedicated .html file.
+ * @param page - the location where the main component html resides
+ * @param number - a variable relating to the number of the content section
  */
-function loadContent(page) {
+function loadContent(page, number) {
     fetch(page)
         .then(response => response.text())
         .then(data => {
-            document.getElementById('content').innerHTML = data;
+            const section = document.createElement('div');
+            section.classList.add('section');
+            section.setAttribute('id', `section${number}`)
+            section.innerHTML = data;
+            document.getElementById('content').appendChild(section);
         })
         .catch(error => console.error('Error loading the content of ' + page, error));
 }
@@ -42,12 +47,15 @@ function loadContent(page) {
 document.addEventListener('DOMContentLoaded', () => {
     loadHeader();
     loadFooter();
-    loadContent('/src/home.html');
+    const pages = ['../src/home.html', '../src/projects.html', '../src/platforms.html', '../src/contact.html']
+    for (const page in pages) {
+        console.log(pages[page])
+        loadContent(pages[page], page);
+    }
 
     window.sendForm = sendForm;
     window.loadContent = loadContent;
-    window.displayRepos = displayRepos;
-
+    displayRepos();
 })
 
 /***
@@ -93,13 +101,10 @@ function sendForm() {
 async function fetchGitHubRepos(user_name) {
     const url = `https://api.github.com/users/${user_name}/repos`;
     const response = await fetch(url);
-    console.log("Repos fetching!");
     if (response.ok) {
-        console.log("Repos fetched!");
         return await response.json();
     } else {
-        //document.getElementById('github_repo').textContent = `Error: ${response.statusText}`;
-        console.log(`Repos fetching failed! ${response.status}`);
+        document.getElementById('github_repo').textContent = `Error: ${response.statusText}`;
         return []
     }
 }
@@ -110,15 +115,12 @@ async function fetchGitHubRepos(user_name) {
  */
 async function fetchGitHubRepoImage(url) {
     const response = await fetch(url);
-    console.log("Repo Image fetching!")
     if (response.ok) {
-        console.log("Repos Image fetched!");
         const data = await response.json();
         return data.download_url;
     }
     else
     {
-        console.log("Repos Image fetching failed!")
         return null;
     }
 }
@@ -128,11 +130,8 @@ async function fetchGitHubRepoImage(url) {
  a div element is created, to which an icon, title and button are added.
  */
 async function displayRepos() {
-    console.log("Displaying Repos!")
-    console.log("Waiting for fetchGitHubRepos!");
     const repos = await fetchGitHubRepos('jipelski');
     const grid = document.getElementById('github_repo');
-    console.log("No more waiting!");
 
     repos.forEach(repo => {
         const repoItem = document.createElement('div');
@@ -140,8 +139,14 @@ async function displayRepos() {
 
         const repoImage = document.createElement('img');
         const url = `https://api.github.com/repos/jipelski/${repo.name}/contents/repoImage.jpg`;
-        const repoImageUrl = fetchGitHubRepoImage(url)
-        repoImage.src = repoImageUrl || '../res/images/default_repo_image';
+        const repoImageUrl = fetchGitHubRepoImage(url);
+        repoImageUrl
+            .then(async () => {
+                repoImage.src = await repoImageUrl || '../res/images/default_repo_image.jpg';
+            })
+            .catch(() => {
+                repoImage.src = '../res/images/default_repo_image.jpg';
+            })
         repoImage.alt = repo.name;
         repoImage.setAttribute('class', 'repo_image');
 
@@ -153,15 +158,20 @@ async function displayRepos() {
         repoDescription.textContent = repo.description || 'A repository';
         repoDescription.setAttribute('class', 'repo_description');
 
-        const repoButton = document.createElement('a');
+        const repoButton = document.createElement('button');
         repoButton.classList.add('repo_button');
         repoButton.textContent = 'View Further';
-        repoButton.setAttribute('class', 'repo_button')
+        repoButton.setAttribute('class', 'repo_button');
+        repoButton.setAttribute('type', 'button');
+        repoButton.addEventListener('click', (event) => {
+            event.preventDefault();
+            window.open(`https://github.com/jipelski/${repo.name}`, '_blank');
+        })
 
         repoItem.appendChild(repoImage);
         repoItem.appendChild(repoTitle);
         repoItem.appendChild(repoDescription);
         repoItem.appendChild(repoButton);
-        grid.appendChild(repoItem)
+        grid.appendChild(repoItem);
     })
 }

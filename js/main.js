@@ -67,6 +67,7 @@ function loadContentSequentially(pages) {
  * the static html components are loaded. It also exposes multiple functions globally.
  */
 document.addEventListener('DOMContentLoaded', () => {
+    const repos = fetchRepoJson()
     loadHeader();
     loadFooter();
     const pages = ['../src/home.html', '../src/projects.html', '../src/platforms.html', '../src/contact.html']
@@ -74,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.sendForm = sendForm;
     window.loadContent = loadContent;
-    displayRepos();
+    displayRepos(repos);
 })
 
 /***
@@ -114,33 +115,16 @@ function sendForm() {
 }
 
 /***
- * fetchGitHubRepos(@user_name) fetches the repositories of the passed user using the GitHub API.
- * @param user_name - the name of the user whose repositories are going to be fetched
+ * fetchRepoJson() is used to retrieve a json file containing the existing repos of a user.
+ * This is done to go around the need for server-side scripting.
  */
-async function fetchGitHubRepos(user_name) {
-    const url = `https://api.github.com/users/${user_name}/repos`;
+async function fetchRepoJson() {
+    const url = `https://github.com/jipelski/jipelski.github.io/tree/main/res/files/repos_data.json`;
     const response = await fetch(url);
     if (response.ok) {
         return await response.json();
     } else {
-        document.getElementById('github_repo').textContent = `Error: ${response.statusText}`;
         return []
-    }
-}
-
-/***
- * fetchGitHubFileContent(url) fetches the file at the specified url and returns the download url or null.
- * @param url - the url of the file to be fetched
- */
-async function fetchGitHubRepoImage(url) {
-    const response = await fetch(url);
-    if (response.ok) {
-        const data = await response.json();
-        return data.download_url;
-    }
-    else
-    {
-        return null;
     }
 }
 
@@ -148,8 +132,7 @@ async function fetchGitHubRepoImage(url) {
  * displayRepos() populates a grid div element with the repositories of a GitHub user. For each repository
  * a div element is created, to which an icon, title and button are added.
  */
-async function displayRepos() {
-    const repos = await fetchGitHubRepos('jipelski');
+async function displayRepos(repos) {
     const grid = document.getElementById('github_repo');
 
     repos.forEach(repo => {
@@ -157,15 +140,7 @@ async function displayRepos() {
         repoItem.classList.add('repo_item');
 
         const repoImage = document.createElement('img');
-        const url = `https://api.github.com/repos/jipelski/${repo.name}/contents/repoImage.jpg`;
-        const repoImageUrl = fetchGitHubRepoImage(url);
-        repoImageUrl
-            .then(async () => {
-                repoImage.src = await repoImageUrl || '../res/images/default_repo_image.jpg';
-            })
-            .catch(() => {
-                repoImage.src = '../res/images/default_repo_image.jpg';
-            })
+        repoImage.src = repo.image || '../res/images/default_repo_image.jpg';
         repoImage.alt = repo.name;
         repoImage.setAttribute('class', 'repo_image');
 
@@ -176,6 +151,10 @@ async function displayRepos() {
         const repoDescription = document.createElement('p');
         repoDescription.textContent = repo.description || 'A repository';
         repoDescription.setAttribute('class', 'repo_description');
+
+        const repoLanguage = document.createElement('p');
+        repoLanguage.textContent = repo.language || 'none';
+        repoLanguage.setAttribute('class', 'repo_language');
 
         const repoButton = document.createElement('button');
         repoButton.classList.add('button');

@@ -43,23 +43,29 @@ function loadContent(page, number) {
  * loadContentSequentially(@pages) is used to load all the given components into the main content component.
  * @param pages - an array of view source urls
  */
-function loadContentSequentially(pages) {
+async function loadContentSequentially(pages) {
     const contentDiv = document.getElementById('content');
     let number = 0;
-    pages.forEach(page => {
-        fetch(page)
-            .then(response => response.text())
-            .then(data => {
-                const section = document.createElement('div');
-                section.classList.add('section');
-                section.setAttribute('id', `section${number}`)
-                section.innerHTML = data;
-                contentDiv.appendChild(section);
-                number += 1;
-                initializeModal();
-            })
-            .catch(error => console.error('Error loading the content of ' + page, error));
-    });
+    for (const page of pages) {
+        try {
+            const response = await fetch(page);
+            if(!response.ok) {
+                console.error('Error loading the content of ' + page + ' response not ok.');
+            }
+
+            const data = await response.text();
+            const section = document.createElement('div');
+            section.classList.add('section');
+            section.setAttribute('id', `section${number}`);
+            section.innerHTML = data;
+            contentDiv.appendChild(section);
+            number += 1;
+
+        } catch (err) {
+            console.error('Error loading the content of sequentially' + page, err);
+        }
+    }
+    initializeModal();
 }
 
 /***

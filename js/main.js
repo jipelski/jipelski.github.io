@@ -67,7 +67,6 @@ function loadContentSequentially(pages) {
  * the static html components are loaded. It also exposes multiple functions globally.
  */
 document.addEventListener('DOMContentLoaded', () => {
-    const repos = fetchRepoJson()
     loadHeader();
     loadFooter();
     const pages = ['../src/home.html', '../src/projects.html', '../src/platforms.html', '../src/contact.html']
@@ -75,7 +74,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     window.sendForm = sendForm;
     window.loadContent = loadContent;
-    displayRepos(repos);
+
+    fetchRepoJson().then(result =>
+    {
+        displayRepos(result);
+    })
 })
 
 /***
@@ -119,11 +122,18 @@ function sendForm() {
  * This is done to go around the need for server-side scripting.
  */
 async function fetchRepoJson() {
-    const url = `https://github.com/jipelski/jipelski.github.io/tree/main/res/files/repos_data.json`;
+    const url = `https://api.github.com/repos/jipelski/jipelski.github.io/contents/res/files/repos_data.json`;
     const response = await fetch(url);
     if (response.ok) {
-        return await response.json();
+        const repoContent = await response.json();
+        const rawFileResponse = await fetch(repoContent.download_url);
+        if (rawFileResponse.ok) {
+            return rawFileResponse.json();
+        } else {
+            console.error('Error loading the raw file');
+        }
     } else {
+        console.log()
         return []
     }
 }
@@ -132,10 +142,15 @@ async function fetchRepoJson() {
  * displayRepos() populates a grid div element with the repositories of a GitHub user. For each repository
  * a div element is created, to which an icon, title and button are added.
  */
-async function displayRepos(repos) {
+function displayRepos(repos) {
     const grid = document.getElementById('github_repo');
 
-    repos.forEach(repo => {
+    console.log(repos);
+    for(let repoName in repos) {
+        console.log("inside the for loop")
+        console.log(repoName);
+        const repo = repos[repoName];
+        console.log(repo);
         const repoItem = document.createElement('div');
         repoItem.classList.add('repo_item');
 
@@ -171,7 +186,7 @@ async function displayRepos(repos) {
         repoItem.appendChild(repoDescription);
         repoItem.appendChild(repoButton);
         grid.appendChild(repoItem);
-    })
+    }
 }
 
 /***

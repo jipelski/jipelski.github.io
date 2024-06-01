@@ -155,7 +155,11 @@ function displayRepos(repos) {
         repoItem.classList.add('repo_item');
 
         const repoImage = document.createElement('img');
-        repoImage.src = repo.image || '../res/images/default_repo_image.jpg';
+        if (repo.image) {
+            repoImage.src = `data:image/jpeg;base64,${repo.image}`;
+        } else {
+            repoImage.src = '../res/images/default_repo_image.jpg';
+        }
         repoImage.alt = repo.name;
         repoImage.setAttribute('class', 'repo_image');
 
@@ -185,6 +189,7 @@ function displayRepos(repos) {
         repoItem.appendChild(repoTitle);
         repoItem.appendChild(repoDescription);
         repoItem.appendChild(repoButton);
+        repoItem.appendChild(repoLanguage);
         grid.appendChild(repoItem);
     }
 }

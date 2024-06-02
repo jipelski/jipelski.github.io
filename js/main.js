@@ -75,8 +75,9 @@ async function loadContentSequentially(pages) {
 document.addEventListener('DOMContentLoaded', () => {
     loadHeader();
     loadFooter();
-    const pages = ['../src/home.html', '../src/projects.html', '../src/platforms.html', '../src/contact.html']
-    loadContentSequentially(pages);
+    const pages = ['../src/animation.html','../src/home.html', '../src/projects.html', '../src/platforms.html', '../src/contact.html']
+    loadContentSequentially(pages)
+        .then(animateName);
 
     window.sendForm = sendForm;
     window.loadContent = loadContent;
@@ -114,7 +115,7 @@ function sendForm() {
         const serviceID = 'service_dvofvzg';
         const templateID = 'template_1qbyhbf';
 
-        emailjs.sendForm(serviceID, templateID, "#contact_form")
+            emailjs.sendForm(serviceID, templateID, "#contact_form")
             .then(() => {
                 alert('Sent!');
             }, (err) => {
@@ -241,4 +242,22 @@ function initializeModal() {
             modal.style.display = "none";
         }
     }
+}
+
+function animateName() {
+    const animation = lottie.loadAnimation({
+        container: document.getElementById('lottie_animation'),
+        renderer: 'svg',
+        loop: false,
+        autoplay: true,
+        path: 'res/files/JipelskiAnimation.json',
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid meet'
+        }
+    });
+
+    animation.addEventListener('complete', function() {
+        let totalFrames = animation.totalFrames;
+        animation.goToAndStop(totalFrames - 1, true);
+    });
 }

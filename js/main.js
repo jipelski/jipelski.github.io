@@ -36,6 +36,7 @@ function loadContent(page, number) {
             section.setAttribute('id', `section${number}`)
             section.innerHTML = data;
             document.getElementById('content').appendChild(section);
+            smoothScroll();
         })
         .catch(error => console.error('Error loading the content of ' + page, error));
 }
@@ -73,11 +74,12 @@ async function loadContentSequentially(pages) {
  * the static html components are loaded. It also exposes multiple functions globally.
  */
 document.addEventListener('DOMContentLoaded', () => {
-    loadHeader();
-    loadFooter();
-    const pages = ['../src/animation.html','../src/home.html', '../src/projects.html', '../src/platforms.html', '../src/contact.html']
+    const pages = ['../src/home.html', '../src/projects.html', '../src/platforms.html', '../src/contact.html']
     loadContentSequentially(pages)
         .then(animateName);
+
+    loadHeader();
+    loadFooter();
 
     window.sendForm = sendForm;
     window.loadContent = loadContent;
@@ -244,6 +246,7 @@ function initializeModal() {
     }
 }
 
+//ANIMATE NAME
 function animateName() {
     const animation = lottie.loadAnimation({
         container: document.getElementById('lottie_animation'),
@@ -260,4 +263,23 @@ function animateName() {
         let totalFrames = animation.totalFrames;
         animation.goToAndStop(totalFrames - 1, true);
     });
+}
+
+//Smooth Scroll
+function smoothScroll() {
+    const links = document.querySelectorAll('nav a[href^="#"]');
+
+    for (const link of links) {
+        link.addEventListener("click", function(event) {
+            event.preventDefault();
+
+            const targetId = this.getAttribute("href");
+            const targetElement = document.querySelector(targetId);
+
+            window.scrollTo({
+                top: targetElement.offsetTop - 50, // Adjust the value as needed
+                behavior: "smooth"
+            });
+        });
+    }
 }

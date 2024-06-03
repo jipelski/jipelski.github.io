@@ -23,17 +23,21 @@ jobs:
       - name: Install dependencies
         run: npm install node-fetch
 
+      - name: List directory contents before running script
+        run: |
+          mkdir -p res/files  # Ensure the directory exists
+          ls -la res/files
+
       - name: Run script to update repos data
         run: node js/jsonUpdater.mjs
 
       - name: Show updated file content
-        run: cat res/files/repos_data.json
+        run: |
+          echo "Showing the content of res/files/repos_data.json:"
+          cat res/files/repos_data.json
 
-      - name: Debug Git Status
-        run: git status
-
-      - name: Debug Git Diff
-        run: git diff res/files/repos_data.json
+      - name: List directory contents after running script
+        run: ls -la res/files
 
       - name: Commit and push changes
         env:
@@ -44,7 +48,6 @@ jobs:
           
           if [ -f res/files/repos_data.json ]; then
             git add -f res/files/repos_data.json
-            echo "repos_data updated"
           fi
           
           git status

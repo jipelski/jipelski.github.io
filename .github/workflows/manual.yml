@@ -44,5 +44,5 @@ jobs:
           git add -f res/files/repos_data.json
           git status
           git diff --cached
-          git commit -m 'Update repos data' || echo "No changes to commit"
+          git commit -m 'Update repos data'
           git push origin HEAD:main

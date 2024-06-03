@@ -69,7 +69,7 @@ async function updateReposData(user_name) {
         reposData[repoNames[repo].name] = await fetchGitHubRepoData(repoNames[repo], user_name);
     }
 
-    console.log(reposData);
+    console.log('Final repos data:', reposData);
 
     const __dirname = path.resolve();
     const dirPath = path.resolve(__dirname, '../res/files');
@@ -77,6 +77,9 @@ async function updateReposData(user_name) {
 
     fs.mkdirSync(dirPath, { recursive: true });
     fs.writeFileSync(jsonFilePath, JSON.stringify(reposData, null, 4));
+    console.log(`Data saved to ${jsonFilePath}`);
 }
 
-updateReposData('jipelski');
+updateReposData('jipelski')
+    .then(() => console.log('Update completed'))
+    .catch(error => console.error(`Error updating repos data: ${error}`));

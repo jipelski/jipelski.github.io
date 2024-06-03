@@ -23,6 +23,9 @@ jobs:
       - name: Install dependencies
         run: npm install node-fetch
 
+      - name: Print environment variables
+        run: env
+
       - name: List directory contents before running script
         run: |
           mkdir -p res/files  # Ensure the directory exists
@@ -46,15 +49,11 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           
-          if [ -f res/files/repos_data.json ]; then
-            git add -f res/files/repos_data.json
-          fi
+          git add -f res/files/repos_data.json
           
-          git status
-
-          if git diff --cached --quiet; then
-            echo "No changes to commit"
-          else
+          if ! git diff --cached --quiet; then
             git commit -m 'Update repos data'
             git push origin HEAD:main
+          else
+            echo "No changes to commit"
           fi

@@ -1,6 +1,6 @@
 import fs from 'node:fs';
 import fetch from 'node-fetch';
-import path from "node:path";
+import path from 'node:path';
 
 /***
  * fetchGitHubRepos(@user_name) fetches the repositories of the passed user using the GitHub API.
@@ -9,50 +9,63 @@ import path from "node:path";
 async function fetchGitHubRepos(user_name) {
     const url = `https://api.github.com/users/${user_name}/repos`;
 
-    
-
-    const response = await fetch(url);
-    if (response.ok) {
-        return await response.json();
-    } else {
-        return []
+    try {
+        console.log(`Fetching repositories for user: ${user_name} from URL: ${url}`);
+        const response = await fetch(url);
+        if (response.ok) {
+            const repos = await response.json();
+            console.log(`Fetched ${repos.length} repositories`);
+            return repos;
+        } else {
+            console.error(`Failed to fetch repos: ${response.status} ${response.statusText}`);
+            return [];
+        }
+    } catch (error) {
+        console.error(`Error fetching repos: ${error}`);
+        return [];
     }
 }
 
 /***
- * fetchGitHubRepoData(repoName, user_name) fetches the files at the specified repository and returns a repoData
- * array object.
+ * fetchGitHubRepoData(repo, user_name) fetches the files at the specified repository and returns a repoData
+ * object.
  * @param repo - the repository from which data will be extracted
  * @param user_name - the name of the owner
  */
 async function fetchGitHubRepoData(repo, user_name) {
     const baseURL = `https://api.github.com/repos/${user_name}/${repo.name}/contents`;
-    const repoData = {}
+    const repoData = {};
 
-    const readmeURL = `${baseURL}/README.md`;
-    
-    const readmeResponse = await fetch(readmeURL);
-    if (readmeResponse.status === 200) {
-        const readmeContent = await readmeResponse.json();
-        repoData.readme = await (await fetch(readmeContent.download_url)).text();
-    } else {
-        repoData.readme = "Repo ReadME not found";
+    try {
+        console.log(`Fetching README and image for repository: ${repo.name}`);
+        const readmeURL = `${baseURL}/README.md`;
+        const readmeResponse = await fetch(readmeURL);
+        if (readmeResponse.status === 200) {
+            const readmeContent = await readmeResponse.json();
+            repoData.readme = await (await fetch(readmeContent.download_url)).text();
+        } else {
+            repoData.readme = "Repo README not found";
+        }
+
+        const imageURL = `${baseURL}/repoImage.jpg`;
+        const imageResponse = await fetch(imageURL);
+        if (imageResponse.status === 200) {
+            const imageContent = await imageResponse.json();
+            repoData.image = imageContent.content;
+        } else {
+            repoData.image = null;
+        }
+
+        repoData.description = repo.description;
+        repoData.language = repo.language;
+        repoData.name = repo.name;
+
+        console.log(`Fetched data for repository: ${repo.name}`);
+        return repoData;
+    } catch (error) {
+        console.error(`Error fetching repo data for ${repo.name}: ${error}`);
+        return {};
     }
-
-    const imageURL = `${baseURL}/repoImage.jpg`;
-    const imageResponse = await fetch(imageURL);
-    if (imageResponse.status === 200) {
-        const imageContent = await imageResponse.json();
-        repoData.image = imageContent.content;
-    } else {
-        repoData.image = null;
-    }
-
-    repoData.description = repo.description;
-    repoData.language = repo.language;
-    repoData.name = repo.name;
-
-    return repoData;
 }
 
 /***
@@ -64,18 +77,28 @@ async function updateReposData(user_name) {
     const reposData = {};
     const repoNames = await fetchGitHubRepos(user_name);
 
-    for (let repo in repoNames) {
-        console.log(repoNames[repo]);
+    for (let repo of repoNames) {
+        console.log(`Processing repo: ${repoNames[repo].name}`);
         reposData[repoNames[repo].name] = await fetchGitHubRepoData(repoNames[repo], user_name);
     }
+
+    console.log('Final repos data:', reposData);
 
     const __dirname = path.resolve();
     const dirPath = path.resolve(__dirname, '../res/files');
     const jsonFilePath = path.join(dirPath, 'repos_data.json');
 
+    console.log(`Writing data to file: ${jsonFilePath}`);
+    // Ensure the directory exists
     fs.mkdirSync(dirPath, { recursive: true });
-    fs.writeFileSync(jsonFilePath, JSON.stringify(reposData, null, 4));
-    console.log(`Data saved to ${jsonFilePath}`);
+
+    // Write the JSON file
+    try {
+        fs.writeFileSync(jsonFilePath, JSON.stringify(reposData, null, 4));
+        console.log(`Data successfully saved to ${jsonFilePath}`);
+    } catch (error) {
+        console.error(`Error writing to file ${jsonFilePath}: ${error}`);
+    }
 }
 
 updateReposData('jipelski')

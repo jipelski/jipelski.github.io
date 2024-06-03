@@ -1,5 +1,6 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
+import path from "node:path";
 
 /***
  * fetchGitHubRepos(@user_name) fetches the repositories of the passed user using the GitHub API.
@@ -71,7 +72,7 @@ async function updateReposData(user_name) {
     console.log(reposData);
 
     const __dirname = path.resolve();
-    const dirPath = path.resolve(__dirname, 'res/files');
+    const dirPath = path.resolve(__dirname, '../res/files');
     const jsonFilePath = path.join(dirPath, 'repos_data.json');
 
     fs.mkdirSync(dirPath, { recursive: true });

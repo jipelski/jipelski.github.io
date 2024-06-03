@@ -1,4 +1,4 @@
-import fs from 'fs';
+import fs from 'node:fs';
 import fetch from 'node-fetch';
 import path from "node:path";
 

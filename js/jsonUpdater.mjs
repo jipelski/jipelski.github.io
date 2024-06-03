@@ -77,7 +77,7 @@ async function updateReposData(user_name) {
     const reposData = {};
     const repoNames = await fetchGitHubRepos(user_name);
 
-    for (let repo of repoNames) {
+    for (let repo in repoNames) {
         console.log(`Processing repo: ${repoNames[repo].name}`);
         reposData[repoNames[repo].name] = await fetchGitHubRepoData(repoNames[repo], user_name);
     }

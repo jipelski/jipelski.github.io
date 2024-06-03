@@ -88,10 +88,8 @@ async function updateReposData(user_name, outputPath) {
     const jsonFilePath = path.join(outputPath, 'repos_data.json');
 
     console.log(`Writing data to file: ${jsonFilePath}`);
-    // Ensure the directory exists
     fs.mkdirSync(outputPath, { recursive: true });
 
-    // Write the JSON file
     try {
         fs.writeFileSync(jsonFilePath, JSON.stringify(reposData, null, 4));
         console.log(`Data successfully saved to ${jsonFilePath}`);

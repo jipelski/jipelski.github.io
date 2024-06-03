@@ -58,13 +58,11 @@ jobs:
           echo "Showing git status before adding changes:"
           git status
 
-          # Force add the JSON file
           git add -f res/files/repos_data.json
           
           echo "Showing git status after adding changes:"
           git status
           
-          # Commit and push if there are changes
           if ! git diff --cached --quiet; then
             echo "Changes detected. Committing and pushing changes."
             git commit -m 'Update repos data'

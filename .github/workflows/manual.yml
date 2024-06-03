@@ -2,8 +2,8 @@ name: Update Repos Data
 
 on:
   schedule:
-    - cron: '0 0 * * *'
-  workflow_dispatch:
+    - cron: '0 0 * * *' # Runs every day at midnight UTC
+  workflow_dispatch: # Allows manual triggering of the workflow
 
 jobs:
   update-json:
@@ -23,8 +23,9 @@ jobs:
       - name: Install dependencies
         run: npm install node-fetch
 
-      - name: Print environment variables
-        run: env
+      - name: Determine absolute path
+        id: path
+        run: echo "::set-output name=repo-path::$(pwd)/res/files"
 
       - name: List directory contents before running script
         run: |
@@ -32,7 +33,7 @@ jobs:
           ls -la res/files
 
       - name: Run script to update repos data
-        run: node js/jsonUpdater.mjs
+        run: node js/jsonUpdater.mjs jipelski ${{ steps.path.outputs['repo-path'] }}
 
       - name: Show updated file content
         run: |
@@ -42,16 +43,30 @@ jobs:
       - name: List directory contents after running script
         run: ls -la res/files
 
+      - name: Check file content after script
+        run: |
+          echo "Content of repos_data.json after script execution:"
+          cat res/files/repos_data.json
+
       - name: Commit and push changes
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          
+
+          echo "Showing git status before adding changes:"
+          git status
+
+          # Force add the JSON file
           git add -f res/files/repos_data.json
           
+          echo "Showing git status after adding changes:"
+          git status
+          
+          # Commit and push if there are changes
           if ! git diff --cached --quiet; then
+            echo "Changes detected. Committing and pushing changes."
             git commit -m 'Update repos data'
             git push origin HEAD:main
           else

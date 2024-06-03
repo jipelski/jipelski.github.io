@@ -69,28 +69,27 @@ async function fetchGitHubRepoData(repo, user_name) {
 }
 
 /***
- * updateReposData(user_name) fetches the existing public repositories of the given user and updates a local
+ * updateReposData(user_name, outputPath) fetches the existing public repositories of the given user and updates a local
  * json file.
  * @param user_name - the name of the user
+ * @param outputPath - the path where the json file will be saved
  */
-async function updateReposData(user_name) {
+async function updateReposData(user_name, outputPath) {
     const reposData = {};
     const repoNames = await fetchGitHubRepos(user_name);
 
-    for (let repo in repoNames) {
-        console.log(`Processing repo: ${repoNames[repo].name}`);
-        reposData[repoNames[repo].name] = await fetchGitHubRepoData(repoNames[repo], user_name);
+    for (let repo of repoNames) {
+        console.log(`Processing repo: ${repo.name}`);
+        reposData[repo.name] = await fetchGitHubRepoData(repo, user_name);
     }
 
     console.log('Final repos data:', reposData);
 
-    const __dirname = path.resolve();
-    const dirPath = path.resolve(__dirname, '../res/files');
-    const jsonFilePath = path.join(dirPath, 'repos_data.json');
+    const jsonFilePath = path.join(outputPath, 'repos_data.json');
 
     console.log(`Writing data to file: ${jsonFilePath}`);
     // Ensure the directory exists
-    fs.mkdirSync(dirPath, { recursive: true });
+    fs.mkdirSync(outputPath, { recursive: true });
 
     // Write the JSON file
     try {
@@ -101,6 +100,15 @@ async function updateReposData(user_name) {
     }
 }
 
-updateReposData('jipelski')
+const args = process.argv.slice(2);
+const userName = args[0];
+const outputPath = args[1];
+
+if (!userName || !outputPath) {
+    console.error('Something went very wrong...');
+    process.exit(1);
+}
+
+updateReposData(userName, outputPath)
     .then(() => console.log('Update completed'))
     .catch(error => console.error(`Error updating repos data: ${error}`));

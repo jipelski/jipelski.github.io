@@ -70,7 +70,7 @@ async function updateReposData(user_name) {
 
     console.log(reposData);
 
-    const jsonFilePath = '../res/files/repos_data.json';
+    const jsonFilePath = 'res/files/repos_data.json';
     fs.writeFileSync(jsonFilePath, JSON.stringify(reposData, null, 4));
 }
 

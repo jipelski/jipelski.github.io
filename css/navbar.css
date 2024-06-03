@@ -1,0 +1,7 @@
+nav {
+    opacity: 70%;
+    background-color: var(--background-color);
+    color: var(--on-background-color);
+    position: fixed;
+    z-index: 1000;
+}

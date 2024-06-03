@@ -1,4 +1,5 @@
 const fs = require('fs');
+const fetch =require('node-fetch');
 
 /***
  * fetchGitHubRepos(@user_name) fetches the repositories of the passed user using the GitHub API.

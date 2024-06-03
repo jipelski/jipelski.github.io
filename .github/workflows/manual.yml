@@ -5,11 +5,10 @@ on:
     - cron: '0 0 * * *'
   workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  update_json:
+  update-json:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
@@ -26,6 +25,15 @@ jobs:
 
       - name: Run script to update repos data
         run: node js/jsonUpdater.mjs
+
+      - name: Show updated file content
+        run: cat res/files/repos_data.json
+
+      - name: Debug Git Status
+        run: git status
+
+      - name: Debug Git Diff
+        run: git diff res/files/repos_data.json
 
       - name: Commit and push changes
         env:

@@ -1,5 +1,5 @@
-const fs = require('fs');
-const fetch =require('node-fetch');
+import fs from 'fs';
+import fetch from 'node-fetch';
 
 /***
  * fetchGitHubRepos(@user_name) fetches the repositories of the passed user using the GitHub API.

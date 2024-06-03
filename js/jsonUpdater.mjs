@@ -69,8 +69,6 @@ async function updateReposData(user_name) {
         reposData[repoNames[repo].name] = await fetchGitHubRepoData(repoNames[repo], user_name);
     }
 
-    console.log('Final repos data:', reposData);
-
     const __dirname = path.resolve();
     const dirPath = path.resolve(__dirname, '../res/files');
     const jsonFilePath = path.join(dirPath, 'repos_data.json');

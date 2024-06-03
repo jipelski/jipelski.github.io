@@ -29,6 +29,9 @@ jobs:
       - name: Show updated file content
         run: cat res/files/repos_data.json
 
+      - name: List res/files directory contents
+        run: ls -la res/files
+
       - name: Debug Git Status
         run: git status
 
@@ -41,7 +44,7 @@ jobs:
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add -f res/files/repos_data.json
+          git add -A
           git status
           git diff --cached
           git commit -m 'Update repos data' || echo "No changes to commit"

@@ -70,7 +70,11 @@ async function updateReposData(user_name) {
 
     console.log(reposData);
 
-    const jsonFilePath = './res/files/repos_data.json';
+    const __dirname = path.resolve();
+    const dirPath = path.resolve(__dirname, 'res/files');
+    const jsonFilePath = path.join(dirPath, 'repos_data.json');
+
+    fs.mkdirSync(dirPath, { recursive: true });
     fs.writeFileSync(jsonFilePath, JSON.stringify(reposData, null, 4));
 }
 

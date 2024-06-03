@@ -23,7 +23,7 @@ jobs:
         run: npm install node-fetch
 
       - name: Run script to update repos data
-        run: node js/jsonUpdater.js
+        run: node js/jsonUpdater.mjs
 
       - name: Commit and push changes
         run: |

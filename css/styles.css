@@ -59,6 +59,12 @@ button.secondary {
     align-items: center;
 }
 
+.projects_container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
 .repo_item {
     display: grid;
     border: 1px solid #ccc;
@@ -114,4 +120,8 @@ button.secondary {
 .repo_item:hover .button {
     transform: translateY(-100%);
     opacity: 100;
+}
+
+ul{
+    list-style-type: none;
 }

@@ -76,19 +76,19 @@ document.addEventListener('DOMContentLoaded', () => {
     const pages = ['../src/home.html', '../src/projects.html', '../src/platforms.html', '../src/contact.html']
     loadContentSequentially(pages)
         .then(animateName)
-        .then(smoothScroll)
         .then(() => {
+            loadHeader();
+            loadFooter();
             return fetchRepoJson();
         })
         .then(result => {
             displayRepos(result);
+            smoothScroll();
         })
         .catch(error => {
             console.error('Error:', error);
         });
 
-    loadHeader();
-    loadFooter();
 
     window.sendForm = sendForm;
     window.loadContent = loadContent;
@@ -160,7 +160,7 @@ function displayRepos(repos) {
 
     for(let repoName in repos) {
         const repo = repos[repoName];
-        const repoItem = document.createElement('section');
+        const repoItem = document.createElement('div');
         repoItem.classList.add('repo_item');
 
         const repoImage = document.createElement('img');
@@ -172,7 +172,7 @@ function displayRepos(repos) {
         repoImage.alt = repo.name;
         repoImage.setAttribute('class', 'repo_image');
 
-        const repoTitle = document.createElement('h2');
+        const repoTitle = document.createElement('p');
         repoTitle.textContent = repo.name;
         repoTitle.setAttribute('class', 'repo_title');
 
@@ -196,9 +196,9 @@ function displayRepos(repos) {
 
         repoItem.appendChild(repoImage);
         repoItem.appendChild(repoTitle);
+        repoItem.appendChild(repoLanguage);
         repoItem.appendChild(repoDescription);
         repoItem.appendChild(repoButton);
-        repoItem.appendChild(repoLanguage);
         grid.appendChild(repoItem);
     }
 }
@@ -222,7 +222,7 @@ function initializeModal() {
         btn.onclick = function() {
             console.log("Clicked")
             modal.style.display = "block";
-            var resumeContainer = document.getElementById("resume_container");
+            let resumeContainer = document.getElementById("resume_container");
             if (isMobile()) {
                 // Provide a link for mobile users
                 resumeContainer.innerHTML = '<p>Mobile users, please <a href="../res/files/JipaClaudiuCV.pdf">click here to view the PDF</a>.</p>';

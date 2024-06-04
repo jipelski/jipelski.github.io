@@ -56,3 +56,11 @@ body {
     height: 500px;
     border: 1px solid #ccc;
 }
+
+.name_description{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 10% 20%;
+}

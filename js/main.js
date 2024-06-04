@@ -194,11 +194,27 @@ function displayRepos(repos) {
             window.open(`https://github.com/jipelski/${repo.name}`, '_blank');
         })
 
-        repoItem.appendChild(repoImage);
-        repoItem.appendChild(repoTitle);
-        repoItem.appendChild(repoLanguage);
-        repoItem.appendChild(repoDescription);
-        repoItem.appendChild(repoButton);
+        const repoImageContainer = document.createElement('div');
+        repoImageContainer.classList.add('repo_image_container');
+        repoImageContainer.appendChild(repoImage);
+        repoItem.appendChild(repoImageContainer);
+
+        const repoDataContainer = document.createElement('div');
+        repoDataContainer.classList.add('repo_data_container');
+        const repoDataContainerUpper = document.createElement('div');
+        repoDataContainerUpper.classList.add('repo_data_container_upper');
+        const repoDataContainerLower = document.createElement('div');
+        repoDataContainerUpper.classList.add('repo_data_container_lower');
+
+        repoDataContainerUpper.appendChild(repoTitle);
+        repoDataContainerUpper.appendChild(repoLanguage);
+        repoDataContainerLower.appendChild(repoDescription);
+        repoDataContainerLower.appendChild(repoButton);
+
+        repoDataContainer.appendChild(repoDataContainerUpper);
+        repoDataContainer.appendChild(repoDataContainerLower);
+
+        repoItem.appendChild(repoDataContainer);
         grid.appendChild(repoItem);
     }
 }

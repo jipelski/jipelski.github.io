@@ -58,6 +58,7 @@ body {
 }
 
 .name_description{
+    min-height: 600px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;

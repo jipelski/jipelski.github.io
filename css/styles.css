@@ -60,6 +60,7 @@ button.secondary {
 }
 
 .repo_item {
+    display: grid;
     border: 1px solid #ccc;
     border-radius: 8px;
     overflow: hidden;
@@ -68,14 +69,31 @@ button.secondary {
     margin: 20px;
     transition: transform 0.3s ease;
 }
+
+.repo_image_container {
+    overflow: hidden;
+}
+
+.repo_data_container {
+    display: grid;
+    justify-content: center;
+}
+
+.repo_data_container_upper {
+    display: inline-block;
+    justify-content: space-around;
+}
+
+.repo_data_container_lower {
+}
+
 .repo_image {
     width: 100%;
-    height: 75%;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
 .repo_title, .repo_language {
-    margin: 10px 0;
+    margin-left: 10%;
 }
 .repo_description {
     padding: 10px;

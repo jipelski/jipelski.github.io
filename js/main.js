@@ -31,12 +31,11 @@ function loadContent(page, number) {
     fetch(page)
         .then(response => response.text())
         .then(data => {
-            const section = document.createElement('div');
+            const section = document.createElement('section');
             section.classList.add('section');
             section.setAttribute('id', `section${number}`)
             section.innerHTML = data;
             document.getElementById('content').appendChild(section);
-            smoothScroll();
         })
         .catch(error => console.error('Error loading the content of ' + page, error));
 }
@@ -55,7 +54,7 @@ async function loadContentSequentially(pages) {
             }
 
             const data = await response.text();
-            const section = document.createElement('div');
+            const section = document.createElement('section');
             section.classList.add('section');
             section.setAttribute('id', `section${number}`);
             section.innerHTML = data;
@@ -76,18 +75,23 @@ async function loadContentSequentially(pages) {
 document.addEventListener('DOMContentLoaded', () => {
     const pages = ['../src/home.html', '../src/projects.html', '../src/platforms.html', '../src/contact.html']
     loadContentSequentially(pages)
-        .then(animateName);
+        .then(animateName)
+        .then(smoothScroll)
+        .then(() => {
+            return fetchRepoJson();
+        })
+        .then(result => {
+            displayRepos(result);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
 
     loadHeader();
     loadFooter();
 
     window.sendForm = sendForm;
     window.loadContent = loadContent;
-
-    fetchRepoJson().then(result =>
-    {
-        displayRepos(result);
-    })
 })
 
 /***
@@ -154,13 +158,9 @@ async function fetchRepoJson() {
 function displayRepos(repos) {
     const grid = document.getElementById('github_repo');
 
-    console.log(repos);
     for(let repoName in repos) {
-        console.log("inside the for loop")
-        console.log(repoName);
         const repo = repos[repoName];
-        console.log(repo);
-        const repoItem = document.createElement('div');
+        const repoItem = document.createElement('section');
         repoItem.classList.add('repo_item');
 
         const repoImage = document.createElement('img');

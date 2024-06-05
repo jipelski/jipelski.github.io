@@ -1,3 +1,34 @@
+function modifyNavbar() {
+    const navbar = document.getElementById('navbar');
+    const burger = document.createElement('div');
+    burger.className = 'burger';
+    burger.innerHTML = '&#9776;';
+    if (isMobile()) {
+        navbar.classList.add('navbar-vertical');
+
+        document.body.appendChild(burger);
+
+        burger.addEventListener('click', function() {
+            navbar.classList.toggle('show');
+            if (navbar.classList.contains('show')) {
+                burger.style.display = 'none';
+            }
+        });
+        document.addEventListener('click', function(event) {
+            event.preventDefault();
+            const isClickInsideNavbar = navbar.contains(event.target);
+            const isClickInsideBurger = burger.contains(event.target);
+
+            if (!isClickInsideNavbar && !isClickInsideBurger && navbar.classList.contains('show')) {
+                navbar.classList.remove('show');
+                burger.style.display = 'block';
+            }
+        });
+    } else {
+        navbar.classList.add('navbar-horizontal');
+    }
+}
+
 /***
  * loadHeader() is used to load the header component into the page from the navbar.html file.
  */
@@ -6,6 +37,9 @@ function loadHeader() {
         .then(response => response.text())
         .then(data => {
             document.getElementById('header').innerHTML = data;
+        })
+        .then(data => {
+            modifyNavbar();
         })
         .catch(error => console.error('Error loading the content of navbar', error));
 }
@@ -223,7 +257,9 @@ function displayRepos(repos) {
  * Function to check if the device is mobile.
  */
 function isMobile() {
-    return /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    const isMobileDevice = /Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+    console.log('isMobile:', isMobileDevice);
+    return isMobileDevice;
 }
 
 /***

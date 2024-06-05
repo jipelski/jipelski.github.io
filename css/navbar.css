@@ -1,10 +1,13 @@
 .navbar {
     width: 100%;
     opacity: 90%;
-    background-color: var(--background-color);
     color: var(--on-background-color);
     position: fixed;
     z-index: 1000;
+}
+
+.navbar-horizontal {
+    background-color: var(--background-color);
     display: flex;
     justify-content: center;
 }
@@ -35,4 +38,52 @@
 
 .nav_list{
     list-style-type: none;
+}
+
+/* Mobile navbar styles */
+.navbar-vertical {
+    background-color: var(--background-color);
+    width: 250px;
+    height: 100%;
+    overflow: hidden;
+    transform: translateX(-250px);
+    transition: transform 0.3s ease;
+}
+
+.navbar-vertical ul {
+    display: block;
+    width: 100%;
+}
+
+.navbar-vertical li {
+    display: block;
+}
+
+.navbar-vertical li a {
+    display: block;
+    padding: 14px 20px;
+}
+
+.navbar-vertical li a:hover {
+    background-color: #575757;
+}
+
+.burger {
+    display: none;
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.show {
+    transform: translateX(0);
+}
+
+@media (max-width: 768px) {
+    .burger {
+        display: block;
+        position: fixed;
+    }
 }

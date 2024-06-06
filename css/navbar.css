@@ -72,11 +72,15 @@
 }
 
 .burger {
+    background-color: var(--background-color);
     display: none;
     position: fixed;
     top: 14px;
     left: 14px;
     font-size: 24px;
+    padding: 4px 8px;
+    border-radius: 10px;
+    border: 2px solid var(--on-background-color);
     cursor: pointer;
 }
 

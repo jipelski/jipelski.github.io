@@ -1,6 +1,11 @@
-body {
-    font-family: Arial, sans-serif;
+.home_content {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
 }
+
 .modal {
     display: none;
     position: fixed;
@@ -57,11 +62,38 @@ body {
     border: 1px solid #ccc;
 }
 
-.name_description{
+.name_description {
     min-height: 600px;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
     margin: 10% 20%;
+}
+
+.home_intro {
+    display: flex;
+    flex-wrap: wrap;
+    background: var(--background-color); /*var(--background-color);*/
+    border-radius: 15px;
+    border: 1px solid var(--primary-color);
+    justify-content: center;
+    align-items: center;
+    margin-left: 10%;
+    margin-right: 10%;
+    max-width: 500px;
+    padding: 20px;
+}
+
+#intro_statement {
+    background: var(--background-color);
+    color: var(--on-primary-color);
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin: 2% 2%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid var(--primary-color);
 }

@@ -1,8 +1,32 @@
+/**
+ *
+ */
 function modifyNavbar() {
     const navbar = document.getElementById('navbar');
     const burger = document.createElement('div');
     burger.className = 'burger';
     burger.innerHTML = '&#9776;';
+
+    function outsideClickListener( event) {
+        const isClickInsideNavbar = navbar.contains(event.target);
+        const isClickInsideBurger = burger.contains(event.target);
+
+        if (!isClickInsideNavbar && !isClickInsideBurger) {
+            navbar.classList.remove('show');
+            burger.style.display = 'block';
+            enableOutsideEvents();
+        } else {
+        }
+    }
+
+    function disableOutsideEvents() {
+        document.addEventListener('click', outsideClickListener, true);
+    }
+
+    function enableOutsideEvents() {
+        document.removeEventListener('click', outsideClickListener, true);
+    }
+
     if (isMobile()) {
         navbar.classList.add('navbar-vertical');
         burger.style.display = 'block';
@@ -13,22 +37,18 @@ function modifyNavbar() {
             navbar.classList.toggle('show');
             if (navbar.classList.contains('show')) {
                 burger.style.display = 'none';
+                disableOutsideEvents();
+            } else {
+                enableOutsideEvents();
             }
         });
-        document.addEventListener('click', function(event) {
-            event.preventDefault();
-            const isClickInsideNavbar = navbar.contains(event.target);
-            const isClickInsideBurger = burger.contains(event.target);
 
-            if (!isClickInsideNavbar && !isClickInsideBurger && navbar.classList.contains('show')) {
-                navbar.classList.remove('show');
-                burger.style.display = 'block';
-            }
-        });
     } else {
         navbar.classList.add('navbar-horizontal');
     }
 }
+
+
 
 /***
  * loadHeader() is used to load the header component into the page from the navbar.html file.
@@ -239,7 +259,7 @@ function displayRepos(repos) {
         const repoDataContainerUpper = document.createElement('div');
         repoDataContainerUpper.classList.add('repo_data_container_upper');
         const repoDataContainerLower = document.createElement('div');
-        repoDataContainerUpper.classList.add('repo_data_container_lower');
+        repoDataContainerLower.classList.add('repo_data_container_lower');
 
         repoDataContainerUpper.appendChild(repoTitle);
         repoDataContainerUpper.appendChild(repoLanguage);

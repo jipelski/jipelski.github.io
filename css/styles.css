@@ -5,8 +5,8 @@
     --on-secondary-color: #ffffff;
     --background-color: #01070B;/*333333*/
     --on-background-color: #f5f5f5;
-    --surface-color: #ffffff;
-    --on-surface-color: #333333;
+    --surface-color: #333333;
+    --on-surface-color: #ffffff;
     --error-color: #e74c3c;
     --on-error-color: #ffffff;
 }
@@ -64,11 +64,11 @@ button.secondary {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-bottom: 10%;
 }
 
 .button {
     opacity: 0;
-    margin: 10px 0;
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 ul{

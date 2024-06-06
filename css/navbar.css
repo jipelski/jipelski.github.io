@@ -31,6 +31,7 @@
 .navbar li a {
     padding: 14px 20px;
     display: inline-block;
+    border-radius: 10px;
 }
 .navbar li a:hover {
     background-color: #575757;
@@ -62,6 +63,8 @@
 .navbar-vertical li a {
     display: block;
     padding: 14px 20px;
+    border-radius: 5px;
+
 }
 
 .navbar-vertical li a:hover {

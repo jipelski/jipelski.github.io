@@ -74,7 +74,7 @@
 .home_intro {
     display: flex;
     flex-wrap: wrap;
-    background: var(--background-color); /*var(--background-color);*/
+    background: var(--background-color);
     border-radius: 15px;
     border: 1px solid var(--primary-color);
     justify-content: center;

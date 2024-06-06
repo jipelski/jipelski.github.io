@@ -70,7 +70,7 @@
 
 .burger {
     display: none;
-    position: absolute;
+    position: fixed;
     top: 14px;
     left: 14px;
     font-size: 24px;
@@ -79,11 +79,4 @@
 
 .show {
     transform: translateX(0);
-}
-
-@media (max-width: 768px) {
-    .burger {
-        display: block;
-        position: fixed;
-    }
 }

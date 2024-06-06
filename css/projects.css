@@ -1,0 +1,60 @@
+
+.projects_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.repo_item {
+    display: grid;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    margin: 20px;
+    transition: transform 0.3s ease;
+}
+
+.repo_image_container {
+    overflow: hidden;
+}
+
+.repo_data_container {
+    display: grid;
+    justify-content: center;
+}
+
+.repo_data_container_upper {
+    display: inline-block;
+    justify-content: space-around;
+}
+
+.repo_data_container_lower {
+}
+
+.repo_image {
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+.repo_title, .repo_language {
+    margin-left: 10%;
+}
+.repo_description {
+    padding: 10px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+
+.repo_item:hover .repo_image {
+    transform: scale(1.1);
+}
+.repo_item:hover .repo_description {
+    transform: translateY(-100%);
+    opacity: 0;
+}
+.repo_item:hover .button {
+    transform: translateY(-100%);
+    opacity: 100;
+}

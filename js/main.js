@@ -5,6 +5,7 @@ function modifyNavbar() {
     burger.innerHTML = '&#9776;';
     if (isMobile()) {
         navbar.classList.add('navbar-vertical');
+        burger.style.display = 'block';
 
         document.body.appendChild(burger);
 

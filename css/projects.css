@@ -30,6 +30,7 @@
     flex-wrap: nowrap;
     justify-content: center;
     align-content: center;
+    margin-top: 5px;
 }
 
 .repo_data_container_upper {

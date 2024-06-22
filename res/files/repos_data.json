@@ -13,6 +13,13 @@
         "language": "Java",
         "name": "MultiplayerBallGame"
     },
+    "PIDandFuzzyLogic": {
+        "readme": "Repo README not found",
+        "image": null,
+        "description": "Right wall following behaviour and obstacle avoidance implementations using a PID controller, fuzzy logic, and both PID controller and fuzzy logic written in Python",
+        "language": "Python",
+        "name": "PIDandFuzzyLogic"
+    },
     "TheMallIsClosed": {
         "readme": "# The Mall Is Closed\n## Description\n\nThis project is a Java-based game where players navigate dungeons, interact with various elements, and engage in combat. The game is built using Java Swing for the GUI and includes elements like tile-based movement, entity interaction, and combat logic.\n\n## Features\n\n* Dungeon exploration with tile-based movement.\n* Interaction with doors, stairs, chests, and sanitiser dispensers.\n* Combat mechanics, including options to convince or attack monsters.\n* Collectible items like toilet paper, masks, and sanitiser.    \n\n## How to Play\n\n* Use arrow keys for movement.\n* Press 'E' to interact with objects and doors.\n* Press 'A' to engage with monsters (either convince them or attack).\n* 'Esc' key opens a menu with options and game tips.\n\n## Installation\n\n1. Clone the repository to your local machine.\n2. Ensure you have Java installed.\n3. Compile and run the game using your preferred Java IDE or command line.\n\n## Usage\n\nNavigate through the dungeon, interact with various elements, and survive the encounters. Collect items and make strategic decisions to progress.\n",
         "image": null,

@@ -16,7 +16,7 @@
     "PIDandFuzzyLogic": {
         "readme": "Repo README not found",
         "image": null,
-        "description": "Right wall following behaviour and obstacle avoidance implementations using a PID controller, fuzzy logic, and both PID controller and fuzzy logic written in Python",
+        "description": "TurtleBot wall following and obstacle avoidance behaviour implementation.",
         "language": "Python",
         "name": "PIDandFuzzyLogic"
     },
